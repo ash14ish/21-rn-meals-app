@@ -5,13 +5,27 @@ import Subtitle from "../components/MealDetail/Subtitle";
 import List from "../components/MealDetail/List";
 import { useLayoutEffect } from "react";
 import IconButton from "../components/IconButton";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavourites,
+  removeFromFavourites,
+} from "../store/favourite-items";
 
 const MealDetailScreen = ({ route, navigation }) => {
+  const dispatch = useDispatch();
+
   const mealId = route.params.mealId;
   const selectedMeal = MEALS?.find((meal) => meal.id === mealId);
 
+  const favouriteMeals = useSelector((state) => state?.favouriteMeals?.ids);
+  const isFavouriteMeal = favouriteMeals?.includes(mealId);
+
   function headerButtonPressHandler() {
-    console.log(selectedMeal.id);
+    if (isFavouriteMeal) {
+      dispatch(removeFromFavourites({ id: mealId }));
+    } else {
+      dispatch(addToFavourites({ id: mealId }));
+    }
   }
 
   useLayoutEffect(() => {
@@ -20,11 +34,11 @@ const MealDetailScreen = ({ route, navigation }) => {
         <IconButton
           onPress={headerButtonPressHandler}
           color="white"
-          icon="star"
+          icon={isFavouriteMeal ? "star" : "star-outline"}
         />
       ),
     });
-  }, [navigation, headerButtonPressHandler]);
+  }, [navigation, headerButtonPressHandler, isFavouriteMeal]);
 
   return (
     <ScrollView style={styles.rootContainer}>

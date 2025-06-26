@@ -9,6 +9,8 @@ import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import MealDetailScreen from "./screens/MealDetailScreen";
 import FavouritesScreen from "./screens/FavouritesScreen";
 import { Ionicons } from "@expo/vector-icons";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -53,37 +55,38 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#351401" },
-            headerTintColor: "white",
-            contentStyle: { backgroundColor: "#3f2f25" },
-          }}
-        >
-          <Stack.Screen
-            name={APP_SCREENS.DRAWER_NAVIGATOR}
-            component={DrawerNavigator}
-            options={{
-              headerShown: false,
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "#351401" },
+              headerTintColor: "white",
+              contentStyle: { backgroundColor: "#3f2f25" },
             }}
-          />
+          >
+            <Stack.Screen
+              name={APP_SCREENS.DRAWER_NAVIGATOR}
+              component={DrawerNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name={APP_SCREENS.MEALS_OVERVIEW_SCREEN}
-            component={MealsOverviewScreen}
-          />
+            <Stack.Screen
+              name={APP_SCREENS.MEALS_OVERVIEW_SCREEN}
+              component={MealsOverviewScreen}
+            />
 
-          <Stack.Screen
-            name={APP_SCREENS.MEAL_DETAIL_SCREEN}
-            component={MealDetailScreen}
-            options={{
-              title: "About the Meal",
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen
+              name={APP_SCREENS.MEAL_DETAIL_SCREEN}
+              component={MealDetailScreen}
+              options={{
+                title: "About the Meal",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 }

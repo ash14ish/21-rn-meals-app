@@ -7,8 +7,8 @@ import {
   Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { APP_SCREENS } from "../utils/constants";
-import MealDetails from "./MealDetails";
+import { APP_SCREENS } from "../../utils/constants";
+import MealDetails from "../MealDetails";
 
 const MealItem = ({
   id,
